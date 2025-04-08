@@ -11,30 +11,30 @@ export const createUser  = async (user: {
   first_name: string;
   last_name: string;
   image_url: string;
-  email_addresses: { email: string }[]; // Adjusted to reflect the structure of email_addresses
+  email_addresses: { email: string }[]; 
   username: string;
 }) => {
   try {
     await connectToDatabase();
 
     const newUser  = await User.findOneAndUpdate(
-      { clerkId: user.id }, // Use user.id instead of id
+      { clerkId: user.id }, 
       {
         $set: {
           firstName: user.first_name,
           lastName: user.last_name,
           email: user.email_addresses[0].email,
           username: user.username,
-          imageUrl: user.image_url, // If you want to store the image URL
+          imageUrl: user.image_url, 
         },
       },
-      { new: true, upsert: true } // Corrected the options object
+      { new: true, upsert: true } 
     );
 
     return JSON.parse(JSON.stringify(newUser ));
   } catch (error) {
     handleError(error);
-    throw new Error('Failed to create user'); // Throw an error after handling it
+    throw new Error('Failed to create user'); 
   }
 };
 
@@ -48,7 +48,7 @@ export async function getUserById(clerkId: string) {
     return JSON.parse(JSON.stringify(user));
   } catch (error) {
     handleError(error);
-    throw new Error('Failed to retrieve user'); // Throw an error after handling it
+    throw new Error('Failed to retrieve user'); 
   }
 }
 
@@ -67,7 +67,7 @@ export async function updateUser (clerkId: string, user: {
     return JSON.parse(JSON.stringify(updatedUser ));
   } catch (error) {
     handleError(error);
-    throw new Error('Failed to update user'); // Throw an error after handling it
+    throw new Error('Failed to update user');
   }
 }
 
@@ -94,6 +94,6 @@ export async function deleteUser (clerkId: string) {
     return deletedUser  ? JSON.parse(JSON.stringify(deletedUser )) : null;
   } catch (error) {
     handleError(error);
-    throw new Error('Failed to delete user'); // Throw an error after handling it
+    throw new Error('Failed to delete user'); 
   }
 }
